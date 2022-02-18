@@ -1,0 +1,53 @@
+{
+  "name": "node-express-sequelize",
+  "version": "1.0.0",
+  "description": "A boilerplate setup for RESTful API's using node, express & sequelize",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check **/*.js",
+    "prettier:fix": "prettier --write **/*.js **/*/*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jothinayagan/node-express-sequelize.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "sequelize",
+    "sql-orm"
+  ],
+  "author": "Jothinayagan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jothinayagan/node-express-sequelize/issues"
+  },
+  "homepage": "https://github.com/Jothinayagan/node-express-sequelize#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "http-status": "^1.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "sequelize": "^6.16.1",
+    "validator": "^13.7.0",
+    "winston": "^3.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-security": "^1.4.0",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  }
+}
