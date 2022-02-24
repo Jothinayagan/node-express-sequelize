@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  node-app:
+    container_name: node-app
+    build: .
+    image: node-app
+    environment:
+      - NODE_PORT=3000
+      - HOST=mysql
+      - USER=root
+      - PASSWORD=123456
+      - DATABASE=testdb
+      - PORT=3307
+      - DIALECT=mysql
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
+    volumes:
+      - .:/usr/src/node-app
+    networks:
+      - node-network
+  
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=testdb
+    ports:
+      - 3307:3307
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - node-network
+
+volumes:
+  dbdata:
+
+networks:
+  node-network:
+    driver: bridge
