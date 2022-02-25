@@ -1,9 +1,11 @@
-import express, { json } from "express";
+import express, { Application, json } from "express";
 import cors from "cors";
-
+import { database } from "./model";
+import logger from "./utilies/logger";
+import routes from "./routes";
 // import logger from "./utilies/logger";
 
-const app = express();
+const app: Application = express();
 
 const corsOptions = {
     origin: "*",
@@ -12,5 +14,15 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(json()); // express json
+app.use("/v1", routes);
+
+async function databaseSync() {
+    await database.sequelize
+        .sync()
+        .then(() => logger.info(`Dropped existing database and tables re-synced!`))
+        .catch((error) => logger.error(`databaseSync error: ${error.message}`));
+}
+
+databaseSync();
 
 export default app;

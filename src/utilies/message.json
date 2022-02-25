@@ -1,6 +1,7 @@
 {
     "empty_req_params": "Request params cannot be empty",
     "invalid_password": "Invalid password: minimum six characters, at least one uppercase & lowercase letter, one number and one special character",
+    "exist_account": "User already having an account",
     "incorrect_password": "Incorrect Password",
     "no_user": "User not found"
 }
