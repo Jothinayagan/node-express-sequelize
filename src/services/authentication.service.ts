@@ -1,21 +1,23 @@
+import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import logger from "../utilies/logger";
-import { failureResponse, successResponse, validatePassword } from "../utilies/helpers";
+import { failureResponse, successResponse, successResponseWithData, validatePassword } from "../utilies/helpers";
 import { empty_req_params, invalid_password, exist_account, no_user, incorrect_password } from "../utilies/message.json";
-// import { generateToken } from "../middleware/verifyToken";
+import { generateToken } from "../middleware/verifyToken";
 import { database } from "../model";
+import { User } from "../interface/interface";
 
-const SALT_WORK_FACTOR: number = 10;
+const SALT_WORK_FACTOR = 10;
 const User = database.user;
 
-export const createUser = async (req: any, res: any) => {
+export const createUser = async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
 
         if (!name || !email || !password) return successResponse(res, empty_req_params);
 
         // check if existing user
-        const findUser = await User.findAll({ where: { email } });
+        const findUser: User[] = await User.findAll({ where: { email } });
         if (findUser.length) return failureResponse(res, exist_account);
 
         if (validatePassword(password)) return failureResponse(res, invalid_password);
@@ -29,32 +31,31 @@ export const createUser = async (req: any, res: any) => {
             password: encryptedPassword,
         };
 
-        User.create(newUser).then((data: any) => {
-            // const { id, name, email, createAt, updateAt } = data;
+        User.create(newUser).then((data: User) => {
             return res.status(200).send(data);
         });
     } catch (error: any) {
-        logger.error(`Signup error: ${error.message}`);
+        logger.error(`Signup: ${error.message}`);
     }
 };
 
-export const loginUser = async (req: any, res: any) => {
+export const loginUser = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
+        logger.info(`${email}, ${password}`);
 
-        // TODO: find user from DB
-        const findUser: any[] = [];
-
+        const findUser: User[] = await User.findAll({ where: { email }, raw: true });
         if (!findUser.length) return failureResponse(res, no_user);
 
         const validatePassword = await bcrypt.compare(password, findUser[0].password);
 
         if (!validatePassword) return failureResponse(res, incorrect_password);
 
-        // const { accessToken } = await generateToken({ id: findUser[0].id, email: findUser[0].email });
+        const user = { id: findUser[0].id, email: findUser[0].email };
+        const token = await generateToken(user);
 
-        // TODO: return accesstoken + user info
+        return successResponseWithData(res, "Login success", { accessToken: token.accessToken, user });
     } catch (error: any) {
-        logger.error(`Signup error: ${error.message}`);
+        logger.error(`login: ${error.message}`);
     }
 };

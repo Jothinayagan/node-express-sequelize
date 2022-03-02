@@ -1,14 +1,13 @@
-import { Sequelize, DataTypes, Op } from "sequelize";
-
-import { DATABASE, HOST, PASSWORD, USER, dialect, pool } from "../config/db.config";
+import { Sequelize, DataTypes, Options } from "sequelize";
 import { userModel } from "./user.model";
+import { DATABASE, HOST, USER, PASSWORD, DIALECT } from "../config/env";
+import { pool } from "../config/db.config";
 
 const { acquire, idle, max, min } = pool;
 
-const configuration = {
+const configuration: Options = {
     host: HOST,
-    dialect,
-    operationAlias: false,
+    dialect: DIALECT,
     pool: {
         max,
         min,
@@ -22,6 +21,5 @@ const sequelize = new Sequelize(DATABASE, USER, PASSWORD, configuration);
 export const database = {
     Sequelize,
     sequelize,
-    Op,
     user: userModel(sequelize, Sequelize, DataTypes),
 };

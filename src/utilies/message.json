@@ -3,5 +3,6 @@
     "invalid_password": "Invalid password: minimum six characters, at least one uppercase & lowercase letter, one number and one special character",
     "exist_account": "User already having an account",
     "incorrect_password": "Incorrect Password",
-    "no_user": "User not found"
+    "no_user": "User not found",
+    "no_secret_token": "Secret token can't be empty!"
 }
