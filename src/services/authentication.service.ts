@@ -54,7 +54,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const user = { id: findUser[0].id, email: findUser[0].email };
         const token = await generateToken(user);
 
-        return successResponseWithData(res, "Login success", { accessToken: token.accessToken, user });
+        return successResponseWithData(res, { accessToken: token.accessToken, user });
     } catch (error: any) {
         logger.error(`login: ${error.message}`);
     }
