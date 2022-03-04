@@ -4,5 +4,11 @@
     "exist_account": "User already having an account",
     "incorrect_password": "Incorrect Password",
     "no_user": "User not found",
-    "no_secret_token": "Secret token can't be empty!"
+    "no_secret_token": "Secret token can't be empty!",
+    "no_update_user": "Nothing to update",
+    "update_user": "User details updated successfully",
+    "user_delete": "User deleted successfully",
+    "all_user_delete": "All users deleted successfully",
+    "no_all_user_delete": "No user available to delete",
+    "no_user_delete": "No user associated with this id"
 }
