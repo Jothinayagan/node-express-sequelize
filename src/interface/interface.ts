@@ -1,3 +1,5 @@
+import { Router } from "express";
+
 export interface GenerateToken {
     id: string;
     email: string;
@@ -20,4 +22,10 @@ export interface Pool {
     min: number;
     acquire: number;
     idle: number;
+}
+
+// Controller  Service
+export interface Controller {
+    path: string;
+    router: Router;
 }

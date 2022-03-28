@@ -1,23 +1,22 @@
 import { config as environmentConfiguration } from "dotenv";
-import app from "./app";
+import App from "./app";
 import { database } from "./model";
+import AuthenticationController from "./services/auth.service";
 import logger from "./utilies/logger";
 
 environmentConfiguration();
 
-const server = app.listen(process.env.NODE_PORT, () => logger.info(`Listening to the port ${process.env.NODE_PORT}`));
+const server = new App([new AuthenticationController()]);
 
 database.sequelize
     .authenticate()
     .then(() => logger.info(`Database connection established!`))
     .catch((error) => logger.error(`Database authentication error: ${error.message}`));
 
+server.listen();
+
 const exitHandler = () => {
-    if (server)
-        server.close(() => {
-            logger.info(`Server connection closed!`);
-            process.exit(1);
-        });
+    if (server) server.close();
     else process.exit(1);
 };
 
